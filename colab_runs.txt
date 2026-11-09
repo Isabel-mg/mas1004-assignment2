@@ -1,10 +1,2 @@
-python src/curate.py look seoul --every 100
-python src/curate.py look busan --every 100
-python src/curate.py look tokyo --every 100
-python src/curate.py look osaka --every 100
-python src/curate.py look taipei --every 100
-python src/official.py --tag baseline --seed 0
-python src/curate.py mistakes results/baseline_seed0/model.onnx --every 2
-python src/train_b.py --tag b1 --submit
-python src/check_submission.py --no-val
-python src/official.py --tag baseline --seed 1
+python src/official.py --tag balanced
+python src/curate.py mistakes results/balanced_seed0/model.onnx --every 2
