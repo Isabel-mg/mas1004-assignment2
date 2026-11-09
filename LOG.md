@@ -50,3 +50,13 @@ panoramic or 360vies confuse the model too.
   number to look at when we change stuff. if it is lower than this number then
   the change we did, did not work. this way we can look for stuff that makes
   the model better (actually better)
+
+## 2026-11-10 balanced (Track A)
+- changed: `sample_weights` in `track_a/recipe.py` gives every photo the weight 1 / (number of photos of its city), so every city is drawn about 20% of the time. Nothing else is different from the baseline.
+- why (student): because i remember in class the professor talked about the
+  difference on the data each had, and because we cannot change the budget i
+  thought about just having them equally.
+- validation: 0.5093 (before: 0.4891 and 0.495, the baseline with seeds 0 and 1)
+- what it means (student): that the more data you have the better, so the
+  better option would be to have more busan and osaka pictures instead of
+  reducing and having them all equally but for now in track A, not possible.
