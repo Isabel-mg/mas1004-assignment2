@@ -13,3 +13,15 @@ End the log with your plan for what to try next.
 - validation: 0.000 (before: 0.000)
 - what it means: what you think the result says
 -->
+
+## 2026-11-09 What tells the cities apart (before any training)
+Written by the student, after looking at the first-look sheets (`look_<city>_NN`):
+
+High Geo value images tell cities apart, stuff like: roads, street scenes,
+building facades, road signs, storefronts, trains or buses, skyline views,
+traditional architectural buildings, driving side, reflective markers on the
+street, utility poles and plates, font styles, web adresses on trucks, buses,
+phone numbers with area codes, license plates, sun position (north or south
+hemisphere), particular types of flora and fauna, taxi colors, unique designs
+from different utilities like electric boxes, scooter boxes, flags, etc. like
+GeoGuessr experts.
