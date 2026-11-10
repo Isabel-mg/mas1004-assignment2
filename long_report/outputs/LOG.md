@@ -90,3 +90,18 @@ panoramic or 360vies confuse the model too.
 - validation: 0.5566 (before: 0.4865, b1)
 - what it means (student): The model did well, but still is better on the main
   cities, seoul and tokyo.
+
+## 2026-11-10 ema (Track A)
+- changed: `on_step` keeps a running average of the weights (decay 0.999, over roughly the last 1,000 of the 3,906 steps) and `final_model` hands in the average. Nothing else is different from `balanced`.
+- why (student): i did it to make sure that the last runs didnt change the
+  results of the overall model.
+- validation: 0.509 (before: 0.5093, balanced)
+- what it means (student): but didnt change much.
+
+## 2026-11-10 b3 (Track B)
+- changed: `--balance` added, so every city is drawn equally often. Everything else is the same as `b2` (MobileNetV3-Large at 512 pixels, 4 epochs).
+- why (student): it worked really well for track A so i wanted to see if it
+  would also help on track b.
+- validation: 0.5656 (before: 0.5566, b2). On the leaderboard page read at 18:43 KST it scored 0.417, against 0.432 for b2, so b2 was released again as `track-b-4` and stays my final Track B.
+- what it means (student): but it didn't make much of a difference. probably the
+  different pictures.

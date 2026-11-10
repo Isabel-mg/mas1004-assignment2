@@ -23,8 +23,9 @@
 \makeheader
 
 Leaderboard nickname: Lumi. Last releases: Track A \texttt{track-a-2}
-(``every city drawn equally often'') and Track B \texttt{track-b-2}
-(``MobileNetV3-Large at 512''). Every number below comes from
+(``every city drawn equally often'') and Track B \texttt{track-b-4}, which is
+the \texttt{b2} model again (``MobileNetV3-Large at 512 (same as
+track-b-2)''). Every number below comes from
 \texttt{outputs/experiments.csv}, \texttt{outputs/check\_submission.txt},
 \texttt{outputs/leaderboard.txt} or the \texttt{count} outputs in
 \texttt{outputs/}.
@@ -77,7 +78,9 @@ notebook at the end of this report.
   only like around 600? so the change wasnt very big.'' The 670 photos are
   1.5\% of the 44,257 training photos.
   \item \texttt{ema}: scored 0.509, the same as \texttt{balanced} (0.5093)
-  to three decimals. The per-city scores moved in both directions.
+  to three decimals. The per-city scores moved in both directions. My
+  reason: ``i did it to make sure that the last runs didnt change the results
+  of the overall model.'' My reading: ``but didnt change much.''
 \end{itemize}
 
 \textbf{Final recipe and selection.} The final Track A release is
@@ -180,7 +183,7 @@ stay in as i want to only change 1.
 % ---------------------------------------------------------------------------
 \section*{Track B}
 
-Both runs trained on the starter training photos only (the \texttt{data}
+All three runs trained on the starter training photos only (the \texttt{data}
 line of \texttt{submission.json} says \texttt{data/starter/train}), 4 epochs.
 
 \begin{center}\footnotesize
@@ -190,6 +193,7 @@ tag & what it is & validation \\
 \midrule
 \texttt{b1} & \texttt{train\_b.py} as it came: ResNet18, 224 by 224 pixels & 0.4865 \\
 \texttt{b2} & MobileNetV3-Large at 512 by 512 pixels, 4.20 million parameters, 1.11 billion multiply-adds & 0.5566 \\
+\texttt{b3} & \texttt{b2} plus \texttt{--balance}, so every city is drawn equally often & 0.5656 \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -208,12 +212,23 @@ use and to find unique features from the similar cities.'' \textbf{What I
 think the result says:} ``The model did well, but still is better on the main
 cities, seoul and tokyo.''
 
-\textbf{Extra photos.} I did not collect any: both Track B runs used only the
-starter training photos.
+\textbf{\texttt{b3}.} I added \texttt{--balance} to \texttt{b2} and changed
+nothing else. It scored 0.5656 on validation, about 0.009 above \texttt{b2}:
+seoul 0.566, busan 0.444, tokyo 0.562, osaka 0.547, taipei 0.710. On the
+leaderboard page read at 18:43 KST it scored 0.417, below \texttt{b2} at 0.432,
+so I released the \texttt{b2} files again as \texttt{track-b-4}, which is my
+final Track B. My reason: ``it worked really well for track A so i wanted to
+see if it would also help on track b.'' My reading: ``but it didn't make much
+of a difference. probably the different pictures.''
+
+\textbf{Extra photos.} I did not collect any: all three Track B runs used only
+the starter training photos.
 
 \textbf{Validation next to leaderboard.} \texttt{b2} scored 0.5566 on the
-validation photos. The leaderboard page (above, track B row) shows 0.432 for
-\texttt{b2}. The leaderboard photos are frames from YouTube walking and driving
+validation photos. The leaderboard page (\texttt{outputs/leaderboard.txt}, the
+reading at 17:35 KST) shows 0.432 for \texttt{b2}. \texttt{b3} went the other
+way: higher on validation (0.5656) and lower on the leaderboard (0.417). The
+leaderboard photos are frames from YouTube walking and driving
 videos from channels that are not in the starter data, while the validation
 photos are from the starter data.
 \textbf{Why I think they differ, in my own words:} ``the set of pictures is
@@ -232,8 +247,10 @@ scored below it by about 0.010 (\texttt{no\_flip}), 0.007
 (\texttt{no\_panorama}) and 0.0003 (\texttt{ema}); \texttt{ema} is far inside
 the 0.006 gap between the two baseline seeds and \texttt{no\_panorama} is just
 above it, so I cannot say either did anything.
-Track B: the model and size change helped most, from 0.4865 to 0.5566. The
-leaderboard scores of the starter recipe and \texttt{b2} are in
+Track B: the model and size change helped most, from 0.4865 to 0.5566.
+Balancing the cities (\texttt{b3}) raised validation by about 0.009 but
+lowered the leaderboard score from 0.432 to 0.417. The leaderboard scores of
+the starter recipe, \texttt{b2} and \texttt{b3} are in
 \texttt{outputs/leaderboard.txt}.
 
 \textbf{What I think made the difference, in my own words:} ``Balanced
