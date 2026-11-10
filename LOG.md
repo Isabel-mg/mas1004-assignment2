@@ -71,3 +71,11 @@ panoramic or 360vies confuse the model too.
 - validation: 0.4995 (before: 0.5093, balanced)
 - what it means (student): probly not reading or not having legible hangul or
   kanji to identify places. because of the 224 by 224 resolution.
+
+## 2026-11-10 no_panorama (Track A)
+- changed: the 670 training photos with width at least 2.0 times their height are left out of `track_a/selection.csv` (43,587 photos remain; made by `scripts/make_selection.py`, listed in `track_a/dropped.csv`). The recipe is the same as `balanced`. The 120 photos from the earlier "no information" cleaning stay in.
+- why (student): i say various of them on the suspicion sheets, thought it could
+  be a way of cleaning data.
+- validation: 0.5025 (before: 0.5093, balanced)
+- what it means (student): maybe it didn't work because the images were only
+  like around 600? so the change wasnt very big.
