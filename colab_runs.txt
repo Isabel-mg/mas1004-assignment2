@@ -1,1 +1,2 @@
-python src/official.py --tag ema
+python src/train_b.py --tag b3 --model mobilenet_v3_large --size 512 --epochs 4 --balance --submit
+python src/check_submission.py --no-val
