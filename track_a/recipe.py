@@ -19,12 +19,15 @@ leaderboard.
 """
 
 import collections
+import copy
 
 import torch
 import torch.nn.functional as F
 from torchvision import transforms as T
 
 BATCH_SIZE = 64
+EMA_DECAY = 0.999
+_ema = {}
 
 
 def train_transform():
@@ -79,8 +82,17 @@ def loss_fn(logits, targets):
 
 def on_step(step, total_steps, model, optimizer):
     """Called after every step, with the step number from 0. Returns nothing."""
+    if "model" not in _ema:
+        _ema["model"] = copy.deepcopy(model)
+        return
+    with torch.no_grad():
+        for avg, now in zip(_ema["model"].state_dict().values(), model.state_dict().values()):
+            if avg.dtype.is_floating_point:
+                avg.mul_(EMA_DECAY).add_(now, alpha=1 - EMA_DECAY)
+            else:
+                avg.copy_(now)
 
 
 def final_model(model):
     """The model to hand in, at the end of training. It must still be the same ResNet18."""
-    return model
+    return _ema.get("model", model)
