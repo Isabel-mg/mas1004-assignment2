@@ -1,1 +1,1 @@
-python src/official.py --tag no_flip
+python src/official.py --tag no_panorama
