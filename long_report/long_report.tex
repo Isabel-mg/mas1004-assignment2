@@ -216,7 +216,9 @@ validation photos. The leaderboard page (above, track B row) shows 0.432 for
 \texttt{b2}. The leaderboard photos are frames from YouTube walking and driving
 videos from channels that are not in the starter data, while the validation
 photos are from the starter data.
-\fillin{Why you think the two scores differ, in your own words.}
+\textbf{Why I think they differ, in my own words:} ``the set of pictures is
+different from the ones used to train and that we are using from the drive
+file. also the final score is the average of all 5 cities.''
 
 \subsection*{Your submission, as the grader sees it}
 \outputfile{outputs/check_submission.txt}
@@ -234,9 +236,13 @@ Track B: the model and size change helped most, from 0.4865 to 0.5566. The
 leaderboard scores of the starter recipe and \texttt{b2} are in
 \texttt{outputs/leaderboard.txt}.
 
-\fillin{What you think made the difference, in your own words.}
+\textbf{What I think made the difference, in my own words:} ``Balanced
+training photos: Forcing the computer to look at all 5 cities equally gave the
+single biggest jump in Track A.''
 
-\fillin{What you would do next with one more week.}
+\textbf{What I would do next with one more week, in my own words:} ``Add new
+photos for the weakest cities, Turn off label smoothing, try replacing
+pictures instead of deleting like in no panorama version.''
 
 % ---------------------------------------------------------------------------
 \section*{All runs}
