@@ -79,3 +79,14 @@ panoramic or 360vies confuse the model too.
 - validation: 0.5025 (before: 0.5093, balanced)
 - what it means (student): maybe it didn't work because the images were only
   like around 600? so the change wasnt very big.
+
+## 2026-11-10 b2 (Track B)
+- changed: the model and the image size. ResNet18 at 224 pixels (`b1`) became MobileNetV3-Large at 512 pixels (4.20 million parameters, 1.11 billion multiply-adds), 4 epochs as before. Two things changed at once, because of the time I had on Colab.
+- why (student): when doing track A i found that letters were probably not taken
+  into account for now because of how small it is. the 224 x 224. because we
+  cannot change for track A i wondered if we could for Track B and because it
+  was possible I did it. so there could be more info to use and to find unique
+  features from the similar cities.
+- validation: 0.5566 (before: 0.4865, b1)
+- what it means (student): The model did well, but still is better on the main
+  cities, seoul and tokyo.
