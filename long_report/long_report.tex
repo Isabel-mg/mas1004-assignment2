@@ -22,52 +22,193 @@
 \begin{document}
 \makeheader
 
-\fillin{Your leaderboard nickname, and the tags of your last Track A and Track B releases.}
-
-% The sections below are a suggestion. Change, merge or add sections as you
-% like; README.md, "The long report", says what a reader should be able to see.
+Leaderboard nickname: Lumi. Last releases: Track A \texttt{track-a-2}
+(``every city drawn equally often'') and Track B \texttt{track-b-2}
+(``MobileNetV3-Large at 512''). Every number below comes from
+\texttt{outputs/experiments.csv}, \texttt{outputs/check\_submission.txt},
+\texttt{outputs/leaderboard.txt} or the \texttt{count} outputs in
+\texttt{outputs/}.
 
 % ---------------------------------------------------------------------------
 \section*{Track A}
+
+All runs use seed 0 unless a seed is named. The starter recipe was trained
+with seeds 0 and 1, which scored 0.4891 and 0.495: the seed alone moves the
+score by about 0.006, so a change smaller than that may be chance.
 
 \begin{center}\footnotesize
 \begin{tabular}{lp{0.6\linewidth}r}
 \toprule
 tag & what changed from the run before & validation \\
 \midrule
-\multicolumn{3}{l}{\fillin{one row per recipe, with the numbers from experiments.csv}} \\
+\texttt{baseline} (seed 0) & the starter recipe, nothing changed & 0.4891 \\
+\texttt{baseline} (seed 1) & the same recipe, only the seed is different & 0.495 \\
+\texttt{balanced} & \texttt{sample\_weights} gives every photo the weight one over the number of photos of its city, so every city is drawn about 20\% of the time & 0.5093 \\
+\texttt{no\_flip} & \texttt{balanced} without \texttt{T.RandomHorizontalFlip()} & 0.4995 \\
+\texttt{no\_panorama} & \texttt{balanced}, with the 670 training photos at least 2.0 times wider than tall left out of \texttt{selection.csv} & 0.5025 \\
+\texttt{ema} & \texttt{balanced}, plus a running average of the weights (decay 0.999) that is handed in at the end & 0.509 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\fillin{What you tried, why, and what you think each result means.}
+\textbf{What I tried and why.} The reasons are in my own words in the lab
+notebook at the end of this report.
 
-\fillin{Your final recipe and selection, and their leaderboard score next to
-their validation score.}
+\begin{itemize}
+  \item \texttt{balanced}: ``because i remember in class the professor talked
+  about the difference on the data each had, and because we cannot change the
+  budget i thought about just having them equally.'' It scored 0.5093, the
+  best Track A result, about 0.020 above baseline seed 0 and about 0.014
+  above seed 1. By city it raised busan (0.3734 and 0.4 to 0.4532), osaka
+  (0.3445 and 0.3769 to 0.4544) and taipei, and lowered tokyo (0.6254 and
+  0.6035 to 0.5022). My reading: ``that the more data you have the better, so
+  the better option would be to have more busan and osaka pictures instead of
+  reducing and having them all equally but for now in track A, not
+  possible.''
+  \item \texttt{no\_flip}: ``i wanted to remove the flip because of text
+  orientation and layour.'' It scored 0.4995, about 0.010 below
+  \texttt{balanced}. My reading: ``probly not reading or not having legible
+  hangul or kanji to identify places. because of the 224 by 224
+  resolution.''
+  \item \texttt{no\_panorama}: ``i say various of them on the suspicion
+  sheets, thought it could be a way of cleaning data.'' It scored 0.5025,
+  about 0.007 below \texttt{balanced}, close to the gap between the two
+  baseline seeds. My reading: ``maybe it didn't work because the images were
+  only like around 600? so the change wasnt very big.'' The 670 photos are
+  1.5\% of the 44,257 training photos.
+  \item \texttt{ema}: scored 0.509, the same as \texttt{balanced} (0.5093)
+  to three decimals. The per-city scores moved in both directions.
+\end{itemize}
+
+\textbf{Final recipe and selection.} The final Track A release is
+\texttt{track-a-2}: the \texttt{balanced} recipe, with no \texttt{selection.csv}
+(all training photos). Its validation score is 0.5093. The leaderboard page
+read on 2026-11-10 at 15:06 KST still showed my starter recipe for Track A
+(score 0.399, one submission, last 10-29 02:07), so \texttt{track-a-2} had not
+been scored there yet (see \texttt{outputs/leaderboard.txt} below).
+\fillin{Leaderboard score of track-a-2, once the leaderboard shows it.}
+
+\outputfile{outputs/leaderboard.txt}
 
 % ---------------------------------------------------------------------------
 \section*{Decisions you made from photos}
 
 \picturefile{figures/mistakes_baseline_seed0_busan_00.png}
 
-\fillin{What you looked at, what you saw in common, and the rule you wrote
-before acting.}
+\picturefile{figures/mistakes_baseline_seed0_tokyo_00.png}
 
-\fillin{What you changed (the output of curate.py count, or the photos you
-added), and the scores before and after.}
+\textbf{What I looked at and saw in common.} First the sheets of the
+baseline's most confident mistakes (above, busan and tokyo), then the
+sheets of the photos the \texttt{balanced} model doubts most (below). My notes
+on the baseline's mistakes, in my own words:
 
-\fillin{The requests you gave your agent for these decisions.}
+\begin{quote}\small
+I see a lot of cars without plates, and cities between same countries get
+confused with each other when there is any writing or alphabets because its
+the same, for example seoul or busan, so intra country regional confusion
+cause it shares infrastructure or cultural elements. Buddhist temples are
+similar between countries with lower resolution and a smaller image it could
+probably not identify them correctly. big commercial places or markets can be
+confusing too. generic asphalt is not as specific, food and indoor or close up
+shots, panoramic or 360vies confuse the model too.
+\end{quote}
+
+\picturefile{figures/suspects_balanced_seed0_busan_00.png}
+
+\textbf{The rule I wrote before acting.} ``lets drop photos with no
+information, meaning photos that cannot be associated with the city. stuff
+like indoors, food, extreme close ups, empty skies or stuff where nothing is
+actually visible. so no information pictures.''
+
+\textbf{What I changed.} I named 120 photos on the five suspects sheets
+(busan 28, osaka 19, seoul 22, taipei 22, tokyo 29). They were taken out of
+the selection with the reason ``no information: cannot be associated with the
+city (indoors, food, extreme close ups, empty skies, nothing visible)'':
+
+\outputfile{outputs/count_120_not_trained.txt}
+
+That selection was prepared but never trained. I then chose a different
+cleaning rule instead of it (``instead of cleaning only 120 pics''), and I
+kept the 120 photos in for the \texttt{no\_panorama} run so that only one
+thing changed. So the measured effect of the first rule is not known.
+
+\textbf{The second rule, and the scores before and after.} I looked at two
+sheets of wide photos (the 231 photos at least 2.5 times wider than tall, and
+439 photos between 2.0 and 2.5) and decided: ``all the pics on the sheets look
+like big panoramic photos. let the other pics stay in as i want to only change
+1.'' The cut-off was width at least 2.0 times height, which left out 670
+photos (the script is \texttt{scripts/make\_selection.py}):
+
+\outputfile{outputs/count_no_panorama.txt}
+
+Before: \texttt{balanced} 0.5093. After: \texttt{no\_panorama} 0.5025.
+
+\picturefile{figures/wide_ratio_2p5_up_00.png}
+
+\picturefile{figures/wide_ratio_2p0_to_2p5_00.png}
+
+\textbf{The requests I gave my agent for these decisions, word for word.}
+
+\begin{quote}\small
+ok, lets drop photos with no information, meaning photos that cannot be
+associated with the city. stuff like indoors, food, extreme close ups, empty
+skies or stuff where nothing is actually visible. so no information pictures.
+is this clear enough as a rule?
+\end{quote}
+
+\begin{quote}\small
+for busan: 2, 4, 5, 6, 7, 9, 10, 13, 14, 15, 17, 18, 19, 23, 25, 27, 26, 28,
+29, 30, 31, 32, 34, 35, 36, 38, 40, 43. for osaka: 1,3 , 5,7,9,12,14,17,18,19,26,
+32, 35, 36, 37, 38, 42, 45, 47. for seoul: 1,2,4,5,9,11,13,14,17,19,26,27,28,29,
+30,32,33,38,40,41,42,48. for taipei: 2,3,9,12,13,15,18,19,21,22,23,26,27,33,34,
+37,40,41,43,44,45,46. for tokyo: 1,3,4,5,6,7,8,12,18,23,24,26,27,29,30,31,32,33,
+34,35,36,40,41,42,43,44,45,46,48.
+\end{quote}
+
+\begin{quote}\small
+now lets try a new change, cleaning rule. lets delete all the 260 or panoramic
+like pictures. can we do that? instead of cleaning only 120 pics.
+\end{quote}
+
+\begin{quote}\small
+all the pics on the sheets look like big panoramic photos. let the other pics
+stay in as i want to only change 1.
+\end{quote}
 
 % ---------------------------------------------------------------------------
 \section*{Track B}
 
-\fillin{What you tried, one step at a time, and the validation score after
-each step.}
+Both runs trained on the starter training photos only (the \texttt{data}
+line of \texttt{submission.json} says \texttt{data/starter/train}), 4 epochs.
 
-\fillin{How you collected any extra photos.}
+\begin{center}\footnotesize
+\begin{tabular}{lp{0.6\linewidth}r}
+\toprule
+tag & what it is & validation \\
+\midrule
+\texttt{b1} & \texttt{train\_b.py} as it came: ResNet18, 224 by 224 pixels & 0.4865 \\
+\texttt{b2} & MobileNetV3-Large at 512 by 512 pixels, 4.20 million parameters, 1.11 billion multiply-adds & 0.5566 \\
+\bottomrule
+\end{tabular}
+\end{center}
 
-\fillin{Your validation score next to your leaderboard score, and why they
-might disagree.}
+\textbf{What I tried.} In \texttt{b2} I changed two things at once, the model
+and the image size, to fit the time I had on Colab, so the gain of about 0.070
+cannot be split between them. ResNet18 cannot go above about 224 pixels within
+the 2.0 billion multiply-adds limit, so a bigger image needed a smaller model.
+Every city scored higher than in \texttt{b1}: seoul 0.639, busan 0.401, tokyo
+0.644, osaka 0.440, taipei 0.659.
+\fillin{Your reason for choosing a bigger image and what you think the result says, in your own words.}
+
+\textbf{Extra photos.} I did not collect any: both Track B runs used only the
+starter training photos.
+
+\textbf{Validation next to leaderboard.} \texttt{b2} scored 0.5566 on the
+validation photos. The leaderboard page (above, track B row) shows 0.432 for
+\texttt{b2}. The leaderboard photos are frames from YouTube walking and driving
+videos from channels that are not in the starter data, while the validation
+photos are from the starter data.
+\fillin{Why you think the two scores differ, in your own words.}
 
 \subsection*{Your submission, as the grader sees it}
 \outputfile{outputs/check_submission.txt}
@@ -75,8 +216,17 @@ might disagree.}
 % ---------------------------------------------------------------------------
 \section*{What made the difference}
 
-\fillin{Which change helped most and which least, in both tracks, with your
-numbers.}
+Track A: drawing every city equally often helped most (\texttt{balanced},
+0.5093, against 0.4891 and 0.495 for the baseline). The other three changes
+scored below it by about 0.010 (\texttt{no\_flip}), 0.007
+(\texttt{no\_panorama}) and 0.0003 (\texttt{ema}); \texttt{ema} is far inside
+the 0.006 gap between the two baseline seeds and \texttt{no\_panorama} is just
+above it, so I cannot say either did anything.
+Track B: the model and size change helped most, from 0.4865 to 0.5566. The
+leaderboard scores of the starter recipe and \texttt{b2} are in
+\texttt{outputs/leaderboard.txt}.
+
+\fillin{What you think made the difference, in your own words.}
 
 \fillin{What you would do next with one more week.}
 

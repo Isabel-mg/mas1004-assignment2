@@ -1,0 +1,8 @@
+﻿city      selected     of   by source
+seoul        11252  11274   commons 6751, osv5m 320, youtube 4181
+busan         5163   5191   commons 3459, youtube 1704
+tokyo        13318  13347   commons 6950, osv5m 1916, youtube 4452
+osaka         7181   7200   commons 5331, osv5m 340, youtube 1510
+taipei        7223   7245   commons 5647, osv5m 533, youtube 1043
+total 44137 rows
+dropped: 120 no information: cannot be associated with the city (indoors, food, extreme close ups, empty skies, nothing visible)

@@ -1,0 +1,5 @@
+﻿Read from https://jdasam.github.io/mas1004-leaderboard/ on 2026-11-10 (nickname Lumi). Columns: rank | nickname | score | seoul | busan | tokyo | osaka | taipei | submissions | last | about
+Updated 2026-11-10 15:06 KST. Each student's newest submission before the update counts
+Track A table row, then Track B table row:
+13 | Lumi | 0.399  | 0.63 | 0.17 | 0.70 | 0.28 | 0.22 | 1 | 10-29 02:07 | Starter recipe (validation 0.499) | 
+7 | Lumi | 0.432 | 0.73 | 0.28 | 0.73 | 0.28 | 0.14 | 2 | 11-10 14:39 | MobileNetV3-Large at 512 1.11 GMACs @ 512 | 

@@ -1,0 +1,8 @@
+﻿city      selected     of   by source
+seoul        10976  11274   commons 6473, osv5m 319, youtube 4184
+busan         5118   5191   commons 3414, youtube 1704
+tokyo        13257  13347   commons 6891, osv5m 1910, youtube 4456
+osaka         7062   7200   commons 5209, osv5m 341, youtube 1512
+taipei        7174   7245   commons 5597, osv5m 533, youtube 1044
+total 43587 rows
+dropped: 670 panoramic: width at least 2.0 times height
