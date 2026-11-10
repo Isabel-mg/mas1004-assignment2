@@ -1,5 +1,11 @@
-﻿Read from https://jdasam.github.io/mas1004-leaderboard/ on 2026-11-10 (nickname Lumi). Columns: rank | nickname | score | seoul | busan | tokyo | osaka | taipei | submissions | last | about
-Updated 2026-11-10 15:06 KST. Each student's newest submission before the update counts
-Track A table row, then Track B table row:
-13 | Lumi | 0.399  | 0.63 | 0.17 | 0.70 | 0.28 | 0.22 | 1 | 10-29 02:07 | Starter recipe (validation 0.499) | 
-7 | Lumi | 0.432 | 0.73 | 0.28 | 0.73 | 0.28 | 0.14 | 2 | 11-10 14:39 | MobileNetV3-Large at 512 1.11 GMACs @ 512 | 
+﻿Read from https://jdasam.github.io/mas1004-leaderboard/ on 2026-11-10 (nickname Lumi).
+Updated 2026-11-10 17:35 KST. Each student's newest submission before the update counts
+Columns: rank | nickname | score [lowest-highest of seeds 0, 1, 2] | seoul | busan | tokyo | osaka | taipei | submissions | last | about
+
+Track A, the rows of Lumi and of the instructor's starter baseline:
+4 | Lumi | 0.414  [0.398–0.436] | 0.55 | 0.29 | 0.64 | 0.31 | 0.28 | 2 | 11-10 00:15 | every city drawn equally often (validation 0.504) | 
+ | starter recipe | 0.401 | 0.60 | 0.19 | 0.72 | 0.27 | 0.22 | track_a/recipe.py as given, all starter photos, seeds 0, 1, 2 (512 px photos, budget 250,000) | 
+
+Track B, the rows of Lumi and of the instructor's starter baseline:
+11 | Lumi | 0.432 | 0.73 | 0.28 | 0.73 | 0.28 | 0.14 | 2 | 11-10 14:39 | MobileNetV3-Large at 512 1.11 GMACs @ 512 | 
+ | train_b.py as given | 0.403 | 0.63 | 0.22 | 0.69 | 0.21 | 0.27 | ResNet18 at 224 px, 4 epochs on the starter photos (512 px) | 
