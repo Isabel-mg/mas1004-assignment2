@@ -60,3 +60,14 @@ panoramic or 360vies confuse the model too.
 - what it means (student): that the more data you have the better, so the
   better option would be to have more busan and osaka pictures instead of
   reducing and having them all equally but for now in track A, not possible.
+
+## 2026-11-10 no_flip (Track A)
+- changed: `T.RandomHorizontalFlip()` removed from `train_transform` in `track_a/recipe.py`. Nothing else is different from `balanced`, which has every city drawn equally often.
+- why (student): i wanted to remove the flip because of text orientation and
+  layour. i thought if the alphabets were backwards, the model wouldnt get
+  them, cause many pictures had clear busan or tokyo texts so i found it weird.
+  same with the driving sides and country specific stuff. flipping it would
+  change it.
+- validation: 0.4995 (before: 0.5093, balanced)
+- what it means (student): probly not reading or not having legible hangul or
+  kanji to identify places. because of the 224 by 224 resolution.
